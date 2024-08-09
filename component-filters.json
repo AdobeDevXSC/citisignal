@@ -1,0 +1,53 @@
+[
+    {
+      "id": "main",
+      "components": [
+        "section"
+      ]
+    },
+    {
+      "id": "columns",
+      "components": []
+    },
+    {
+      "id": "column",
+      "components": [
+        "text",
+        "image",
+        "button",
+        "title"
+      ]
+    },
+    {
+      "id": "section",
+      "components": [
+        "text",
+        "image",
+        "button",
+        "title",
+        "hero",
+        "teaser",
+        "social-media",
+        "simple-logo",
+        "product-list-page",
+        "enrichment",
+        "product-details",
+        "recommended-products",
+        "commerce-cart",
+        "commerce-checkout",
+        "commerce-order-confirmation"
+      ]
+    },
+    {
+      "id": "accordion",
+      "components": [
+        "accordion-item"
+      ]
+    },
+    {
+      "id": "cards",
+      "components": [
+        "card"
+      ]
+    }
+  ]

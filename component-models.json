@@ -1,0 +1,623 @@
+[
+    {
+      "id": "page-metadata",
+      "fields": [
+        {
+          "component": "text",
+          "name": "title",
+          "label": "Title"
+        },
+        {
+          "component": "text",
+          "name": "description",
+          "label": "Description"
+        },
+        {
+          "component": "text",
+          "name": "robots",
+          "label": "Robots"
+        },
+        {
+          "component": "text",
+          "name": "enrichment-categories",
+          "label": "Enrichment Categories"
+        },
+        {
+          "component": "text",
+          "name": "enrichment-positions",
+          "label": "Enrichment Positions"
+        }
+      ]
+    },
+    {
+      "id": "title",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "jcr:title",
+          "value": "",
+          "label": "Text"
+        },
+        {
+          "component": "select",
+          "name": "type",
+          "value": "h1",
+          "label": "Type",
+          "valueType": "string",
+          "options": [
+            {
+              "name": "h1",
+              "value": "h1"
+            },
+            {
+              "name": "h2",
+              "value": "h2"
+            },
+            {
+              "name": "h3",
+              "value": "h3"
+            },
+            {
+              "name": "h4",
+              "value": "h4"
+            },
+            {
+              "name": "h5",
+              "value": "h5"
+            },
+            {
+              "name": "h6",
+              "value": "h6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "image",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "fileReference",
+          "label": "Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "alt",
+          "value": "Default alt",
+          "label": "Alt Text"
+        }
+      ]
+    },
+    {
+      "id": "button",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "href",
+          "value": "",
+          "label": "Link"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "text",
+          "value": "",
+          "label": "Text"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "title",
+          "value": "",
+          "label": "Title"
+        },
+        {
+          "component": "select",
+          "name": "type",
+          "value": "",
+          "label": "Type",
+          "valueType": "string",
+          "options": [
+            {
+              "name": "default",
+              "value": ""
+            },
+            {
+              "name": "primary",
+              "value": "primary"
+            },
+            {
+              "name": "secondary",
+              "value": "secondary"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "columns",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "number",
+          "name": "columns",
+          "value": "",
+          "label": "Columns"
+        },
+        {
+          "component": "text",
+          "valueType": "number",
+          "name": "rows",
+          "value": "",
+          "label": "Rows"
+        }
+      ]
+    },
+    {
+      "id": "section",
+      "fields": [
+        {
+          "component": "select",
+          "name": "style",
+          "value": "",
+          "label": "Style",
+          "valueType": "string",
+          "options": [
+            {
+              "name": "Brand Logo",
+              "value": "brand-logo"
+            },
+            {
+              "name": "Site Links",
+              "value": "site-links"
+            },
+            {
+              "name": "Social Media",
+              "value": "social-media"
+            },
+            {
+              "name": "Default Width, Top Divider (Order Conf)",
+              "value": "default-width, top-divider"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hero",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "label": "Alt",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "heading",
+          "label": "Heading",
+          "value": "" 
+        },
+        {
+          "component": "select",
+          "name": "headingType",
+          "value": "",
+          "label": "Heading Type",
+          "valueType": "string",
+          "options": [
+            {
+              "name": "h1",
+              "value": "h1"
+            }
+          ]
+        },
+        {
+          "component": "richtext",
+          "name": "hero_text",
+          "value": "",
+          "label": "Description",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "hero_linkTitle",
+          "label": "Button Title Attribute",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "hero_linkText",
+          "label": "Button Text",
+          "value": ""
+        },
+        {
+          "component": "aem-content",
+          "name": "hero_link",
+          "value": "",
+          "label": "Button Link",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "teaser",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "label": "Alt",
+          "value": ""
+        },
+        {
+          "component": "richtext",
+          "name": "text",
+          "value": "",
+          "label": "Text",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "social-media",
+      "fields": [
+        {
+          "component": "select",
+          "name": "instagram_icon",
+          "value": "",
+          "label": "Instagram Icon",
+          "valueType": "string",
+          "options": [
+            {
+              "name": "Facebook",
+              "value": ":facebook:"
+            },
+            {
+              "name": "Instagram",
+              "value": ":instagram:"
+            },
+            {
+              "name": "Twitter/X",
+              "value": ":twitter:"
+            }
+          ]
+        },
+        {
+          "component": "aem-content",
+          "name": "instagram_iconLink",
+          "value": "",
+          "label": "Instagram Link",
+          "valueType": "string"
+        },
+        {
+          "component": "select",
+          "name": "facebook_icon",
+          "value": "",
+          "label": "Facebook Icon",
+          "valueType": "string",
+          "options": [
+            {
+              "name": "Facebook",
+              "value": ":facebook:"
+            },
+            {
+              "name": "Instagram",
+              "value": ":instagram:"
+            },
+            {
+              "name": "Twitter/X",
+              "value": ":twitter:"
+            }
+          ]
+        },
+        {
+          "component": "aem-content",
+          "name": "facebook_iconLink",
+          "value": "",
+          "label": "Facebook Link",
+          "valueType": "string"
+        },
+        {
+          "component": "select",
+          "name": "twitter_icon",
+          "value": "",
+          "label": "Twitter Icon",
+          "valueType": "string",
+          "options": [
+            {
+              "name": "Facebook",
+              "value": ":facebook:"
+            },
+            {
+              "name": "Instagram",
+              "value": ":instagram:"
+            },
+            {
+              "name": "Twitter/X",
+              "value": ":twitter:"
+            }
+          ]
+        },
+        {
+          "component": "aem-content",
+          "name": "twitter_iconLink",
+          "value": "",
+          "label": "Twitter Link",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "simple-logo",
+      "fields": [
+        {
+          "component": "select",
+          "name": "simple_icon",
+          "value": "",
+          "label": "Logo/Icon",
+          "valueType": "string",
+          "options": [
+            {
+              "name": "Footer",
+              "value": ":footer-logo:"
+            },
+            {
+              "name": "Header",
+              "value": ":citisignal-header-logo:"
+            }
+          ]
+        },
+        {
+          "component": "aem-content",
+          "name": "simple_iconLink",
+          "value": "",
+          "label": "Link",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "product-list-page",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "category",
+          "label": "Category",
+          "value": ""
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "urlPath",
+          "label": "URL Path",
+          "value": "",
+          "options": [
+            {
+              "name": "Phones",
+              "value": "phones"
+            },
+            {
+              "name": "Watches",
+              "value": "watches"
+            },
+            {
+              "name": "Accessories",
+              "value": "accessories"
+            },
+            {
+              "name": "Gift Cards",
+              "value": "gift-cards"
+            },
+            {
+              "name": "Plans",
+              "value": "plans"
+            },
+            {
+              "name": "Streaming",
+              "value": "streaming"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enrichment",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "type",
+          "label": "Type",
+          "value": ""
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "position",
+          "label": "Position",
+          "value": "",
+          "options": [
+            {
+              "name": "Below Category (Category Page)",
+              "value": "below-category"
+            },
+            {
+              "name": "Below Product (Product Page)",
+              "value": "below-product"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "product-details",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "date",
+          "label": "Date",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "recommended-products",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "link",
+          "label": "Service",
+          "value": "",
+          "options": [
+            {
+              "name": "Default",
+              "value": "/products/recommended-products.json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "commerce-cart",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "placeholder",
+          "label": "Placeholder",
+          "value": "No configs for Commerce Cart",
+          "readOnly": true
+        }
+      ]
+    },
+    {
+      "id": "commerce-checkout",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "placeholder",
+          "label": "Placeholder",
+          "value": "No configs for Commerce Checkout",
+          "readOnly": true
+        }
+      ]
+    },
+    {
+      "id": "commerce-order-confirmation",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "placeholder",
+          "label": "Placeholder",
+          "value": "No configs for Commerce Order Confirmation",
+          "readOnly": true
+        }
+      ]
+    },
+    {
+      "id": "accordion-item",
+      "fields": [
+        {
+          "component": "richtext",
+          "name": "accordianLabel",
+          "value": "",
+          "label": "Item Label",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "name": "accordianBody",
+          "value": "",
+          "label": "Item Body",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "pressRelease",
+          "label": "Press Release",
+          "multi": false
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "financialSupplement",
+          "label": "Financial Supplement",
+          "multi": false
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "presentation",
+          "label": "Presentation",
+          "multi": false
+        }
+      ]
+    },
+    {
+      "id": "card",
+      "fields": [
+        {
+          "component": "aem-content",
+          "name": "reference",
+          "value": "",
+          "label": "Article",
+          "valueType": "string"
+        },
+        {
+          "component": "select",
+          "name": "cardCategory",
+          "value": "",
+          "label": "Category",
+          "valueType": "string",
+          "options": [
+            {
+              "value": "press release",
+              "name": "Press Release"
+            },
+            {
+              "value": "health & wellness",
+              "name": "Health & Wellness"
+            },
+            {
+              "value": "technology & innovation",
+              "name": "Technology & Innovation"
+            },
+            {
+              "value": "perspectives",
+              "name": "Perspectives"
+            }
+          ]
+        }
+      ]
+    }
+  ]
