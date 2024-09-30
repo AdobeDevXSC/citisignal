@@ -1,13 +1,4 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/no-extraneous-dependencies */
-// Drop-in Providers
-import { render as cartProvider } from '@dropins/storefront-cart/render.js';
-
-// Drop-in Containers
-import MiniCart from '@dropins/storefront-cart/containers/MiniCart.js';
-
-// Drop-in Tools
-import { events } from '@dropins/tools/event-bus.js';
+import { cartApi } from '../../scripts/minicart/api.js';
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
@@ -27,6 +18,21 @@ function closeOnEscape(e) {
       // eslint-disable-next-line no-use-before-define
       toggleMenu(nav, navSections);
       nav.querySelector('button').focus();
+    }
+  }
+}
+
+function closeOnFocusLost(e) {
+  const nav = e.currentTarget;
+  if (!nav.contains(e.relatedTarget)) {
+    const navSections = nav.querySelector('.nav-sections');
+    const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
+    if (navSectionExpanded && isDesktop.matches) {
+      // eslint-disable-next-line no-use-before-define
+      toggleAllNavSections(navSections, false);
+    } else if (!isDesktop.matches) {
+      // eslint-disable-next-line no-use-before-define
+      toggleMenu(nav, navSections, false);
     }
   }
 }
@@ -75,24 +81,26 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   if (isDesktop.matches) {
     navDrops.forEach((drop) => {
       if (!drop.hasAttribute('tabindex')) {
-        drop.setAttribute('role', 'button');
         drop.setAttribute('tabindex', 0);
         drop.addEventListener('focus', focusNavSection);
       }
     });
   } else {
     navDrops.forEach((drop) => {
-      drop.removeAttribute('role');
       drop.removeAttribute('tabindex');
       drop.removeEventListener('focus', focusNavSection);
     });
   }
+
   // enable menu collapse on escape keypress
   if (!expanded || isDesktop.matches) {
     // collapse menu on escape press
     window.addEventListener('keydown', closeOnEscape);
+    // collapse menu on focus lost
+    nav.addEventListener('focusout', closeOnFocusLost);
   } else {
     window.removeEventListener('keydown', closeOnEscape);
+    nav.removeEventListener('focusout', closeOnFocusLost);
   }
 }
 
@@ -130,17 +138,19 @@ function setActiveTab() {
   });
 }
 
+
 /**
- * decorates the header, mainly the nav
+ * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
   // load nav as fragment
   const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta).pathname : '/nav';
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
   const fragment = await loadFragment(navPath);
 
   // decorate nav DOM
+  block.textContent = '';
   const nav = document.createElement('nav');
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
@@ -174,93 +184,33 @@ export default async function decorate(block) {
 
   const navTools = nav.querySelector('.nav-tools');
 
-  /** Mini Cart */
-  const excludeMiniCartFromPaths = ['/checkout', '/order-confirmation'];
+  // Minicart
+  const minicartButton = document.createRange().createContextualFragment(`<div class="minicart-wrapper">
+    <button type="button" class="button nav-cart-button">0</button>
+    <div></div>
+  </div>`);
+  navTools.append(minicartButton);
+  navTools.querySelector('.nav-cart-button').addEventListener('click', () => {
+    cartApi.toggleCart();
+  });
+  cartApi.cartItemsQuantity.watch((quantity) => {
+    navTools.querySelector('.nav-cart-button').textContent = quantity;
+  });
 
-  const minicart = document.createRange().createContextualFragment(`
-     <div class="minicart-wrapper">
-       <button type="button" class="nav-cart-button" aria-label="Cart"></button>
-       <div class="minicart-panel nav-panel"></div>
-     </div>
-   `);
-
-  navTools.append(minicart);
-
-  const minicartPanel = navTools.querySelector('.minicart-panel');
-  const cartButton = navTools.querySelector('.nav-cart-button');
-
-  if (excludeMiniCartFromPaths.includes(window.location.pathname)) {
-    cartButton.style.display = 'none';
-  }
-
-  async function toggleMiniCart(state) {
-    const show = state ?? !minicartPanel.classList.contains('nav-panel--show');
-
-    if (show) {
-      await cartProvider.render(MiniCart, {
-        routeEmptyCartCTA: () => '/',
-        routeProduct: (product) => `/products/${product.url.urlKey}/${product.sku}`,
-        routeCart: () => '/cart',
-        routeCheckout: () => '/checkout',
-      })(minicartPanel);
-    } else {
-      cartProvider.unmount(minicartPanel);
-    }
-
-    minicartPanel.classList.toggle('nav-panel--show', show);
-  }
-
-  cartButton.addEventListener('click', () => toggleMiniCart());
-
-  // Cart Item Counter
-  events.on('cart/data', (data) => {
-    if (data?.totalQuantity) {
-      cartButton.setAttribute('data-count', data.totalQuantity);
-    } else {
-      cartButton.removeAttribute('data-count');
-    }
-  }, { eager: true });
-
-  /** Search */
-  const search = document.createRange().createContextualFragment(`
-  <div class="search-wrapper">
-    <button type="button" class="button nav-search-button">Search</button>
-    <div class="nav-search-input nav-search-panel nav-panel hidden">
+  // Search
+  const searchInput = document.createRange().createContextualFragment(`<div class="nav-search-input hidden">
       <form id="search_mini_form" action="/search" method="GET">
         <input id="search" type="search" name="q" placeholder="Search" />
         <div id="search_autocomplete" class="search-autocomplete"></div>
       </form>
-    </div>
-  </div>
-  `);
+    </div>`);
+  document.body.querySelector('header').append(searchInput);
 
-  navTools.append(search);
-
-  const searchPanel = navTools.querySelector('.nav-search-panel');
-  const searchButton = navTools.querySelector('.nav-search-button');
-  const searchInput = searchPanel.querySelector('input');
-
-  function toggleSearch(state) {
-    const show = state ?? !searchPanel.classList.contains('nav-panel--show');
-    searchPanel.classList.toggle('nav-panel--show', show);
-    if (show) searchInput.focus();
-  }
-
+  const searchButton = document.createRange().createContextualFragment('<button type="button" class="button nav-search-button">Search</button>');
+  navTools.append(searchButton);
   navTools.querySelector('.nav-search-button').addEventListener('click', async () => {
     await import('./searchbar.js');
     document.querySelector('header .nav-search-input').classList.toggle('hidden');
-    toggleSearch();
-  });
-
-  // Close panels when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!minicartPanel.contains(e.target) && !cartButton.contains(e.target)) {
-      toggleMiniCart(false);
-    }
-
-    if (!searchPanel.contains(e.target) && !searchButton.contains(e.target)) {
-      toggleSearch(false);
-    }
   });
 
   // hamburger for mobile
