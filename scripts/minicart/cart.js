@@ -230,12 +230,14 @@ export async function addToCart(sku, options, quantity, source) {
     );
     handleCartErrors(errors);
 
-    console.log("GRAPHQL data: ", data);
-    console.log("GRAPHQL errors: ", errors);
+
+    console.log("graphQL data: ", data);
+    console.log("graphQL errors: ", errors);
 
     const { cart, user_errors: userErrors } = data.addProductsToCart;
-    console.log("response- cart: ", cart);
-    console.log("response user_errors: ", userErrors);
+    
+    console.log("response cart: ", cart);
+    console.log("usersErrors: ", userErrors);
 
     if (userErrors && userErrors.length > 0) {
       console.error('User errors while adding item to cart', userErrors);
@@ -247,11 +249,12 @@ export async function addToCart(sku, options, quantity, source) {
 
     // TODO: Find exact item by comparing options UIDs
     const mseChangedItems = cart.items.filter((item) => item.product.sku === sku).map(mapCartItem);
-    window.adobeDataLayer.push(
-      { shoppingCartContext: mseCart },
-      { changedProductsContext: { items: mseChangedItems } },
-      { event: 'add-to-cart' },
-    );
+    window.adobeDataLayer.push((dl) => {
+      dl.push({ shoppingCartContext: mseCart });
+      dl.push({ changedProductsContext: { items: mseChangedItems } });
+      // TODO: Remove eventInfo once collector is updated
+      dl.push({ event: 'add-to-cart', eventInfo: { ...dl.getState() } });
+    });
 
     console.debug('Added items to cart', variables, cart);
   } catch (err) {
