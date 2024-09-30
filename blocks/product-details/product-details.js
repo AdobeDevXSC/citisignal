@@ -4,7 +4,6 @@ import { events } from '@dropins/tools/event-bus.js';
 import { initializers } from '@dropins/tools/initializer.js';
 import * as productApi from '@dropins/storefront-pdp/api.js';
 import { render as productRenderer } from '@dropins/storefront-pdp/render.js';
-import { addProductsToCart } from '@dropins/storefront-cart/api.js';
 import ProductDetails from '@dropins/storefront-pdp/containers/ProductDetails.js';
 
 // Libs
@@ -13,6 +12,15 @@ import { getConfigValue } from '../../scripts/configs.js';
 import { fetchPlaceholders, readBlockConfig } from '../../scripts/aem.js';
 import { createAccordion, generateListHTML } from '../../scripts/scripts.js';
 import initToast from './toast.js';
+
+// Add to cart
+async function addToCart({
+  sku, quantity, optionsUIDs, product,
+}) {
+  const { cartApi } = await import('../../../scripts/minicart/api.js');
+
+  return cartApi.addToCart(sku, optionsUIDs, quantity, product);
+}
 
 // Error Handling (404)
 async function errorGettingProduct(code = 404) {
@@ -268,7 +276,15 @@ export default async function decorate(block) {
                         console.warn('Invalid product', next.values);
                         return;
                       }
-                      const addToCartResponse = await addProductsToCart([{ ...next.values }]);
+                      // const addToCartResponse = await addProductsToCart([{ ...next.values }]);
+                      const addToCartResponse = await addToCart({
+                        sku: next.values?.sku,
+                        quantity: next.values?.quantity,
+                        optionsUIDs: next.values?.optionsUIDs,
+                        product: next.data,
+                      });
+
+                      console.log("addToCartResponse: ", addToCartResponse);
 
                       // toast notification
                       if (next.valid && addToCartResponse) {
