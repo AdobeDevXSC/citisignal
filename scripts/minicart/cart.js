@@ -230,7 +230,13 @@ export async function addToCart(sku, options, quantity, source) {
     );
     handleCartErrors(errors);
 
+    console.log("GRAPHQL data: ", data);
+    console.log("GRAPHQL errors: ", errors);
+
     const { cart, user_errors: userErrors } = data.addProductsToCart;
+    console.log("response- cart: ", cart);
+    console.log("response user_errors: ", user_errors);
+
     if (userErrors && userErrors.length > 0) {
       console.error('User errors while adding item to cart', userErrors);
     }
