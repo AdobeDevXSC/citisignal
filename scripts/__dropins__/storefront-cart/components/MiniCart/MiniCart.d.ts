@@ -2,8 +2,6 @@ import { FunctionComponent, VNode } from 'preact';
 import { HTMLAttributes } from 'preact/compat';
 
 export interface MiniCartProps extends HTMLAttributes<HTMLDivElement> {
-    emptyCart: VNode;
-    heading?: VNode;
     products?: VNode;
     subtotal?: VNode;
     subtotalExcludingTaxes?: VNode;

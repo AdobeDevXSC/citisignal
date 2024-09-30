@@ -1,14 +1,17 @@
 import { HTMLAttributes } from 'preact/compat';
-import { Container } from '@dropins/tools/types/elsie/src/lib';
+import { Container, SlotProps } from '@dropins/tools/types/elsie/src/lib';
 import { CartModel } from '../../data/models';
 
-interface CheckoutRouteContext {
-    cartId: string;
-}
+type DefaultSlotContext = {
+    hasErrors: boolean;
+};
 export interface CartProps extends HTMLAttributes<HTMLDivElement> {
-    routeProduct?: (item: CartModel['items'][0]) => string;
     routeEmptyCartCTA?: () => string;
-    routeCheckout?: (context: CheckoutRouteContext) => string;
+    routeProduct?: (item: CartModel['items'][0]) => string;
+    slots?: {
+        OrderSummary?: SlotProps<DefaultSlotContext>;
+        ProductList?: SlotProps;
+    };
 }
 export declare const Cart: Container<CartProps, CartModel | null>;
 export {};
