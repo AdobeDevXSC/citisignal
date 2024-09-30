@@ -235,7 +235,7 @@ export async function addToCart(sku, options, quantity, source) {
 
     const { cart, user_errors: userErrors } = data.addProductsToCart;
     console.log("response- cart: ", cart);
-    console.log("response user_errors: ", user_errors);
+    console.log("response user_errors: ", userErrors);
 
     if (userErrors && userErrors.length > 0) {
       console.error('User errors while adding item to cart', userErrors);
